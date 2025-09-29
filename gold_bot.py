@@ -1,5 +1,6 @@
 import requests
-from telegram import Bot
+from telegram import Update
+from telegram.ext import Application, ContextTypes, ApplicationBuilder, CommandHandler
 import time
 import feedparser
 from deep_translator import GoogleTranslator

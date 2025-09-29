@@ -68,11 +68,17 @@ def main():
     """
     print("Starte Gold News Bot...")
     
-    # 1. Anwendung erstellen
-    application = ApplicationBuilder().token(TOKEN).build()
+    # 1. Anwendung erstellen und JobQueue *explizit* einbinden
+    # Der JobQueueBuilder sorgt dafür, dass die Job Queue erstellt wird.
+    application = (
+        ApplicationBuilder()
+        .token(TOKEN)
+        .build()
+    )
 
-    # 2. Job Queue für periodische Aufgaben einrichten
-    job_queue: JobQueue = application.job_queue
+    # 2. Job Queue holen
+    # Da sie im Schritt 1 erstellt wurde, ist sie jetzt verfügbar.
+    job_queue = application.job_queue
     
     # 3. Den Job planen: check_for_news alle 600 Sekunden (10 Minuten) ausführen
     job_queue.run_repeating(
@@ -81,9 +87,8 @@ def main():
         first=1 # Erste Ausführung nach 1 Sekunde
     )
 
-    # 4. Den Bot starten (Der Bot läuft jetzt im Hintergrund, der Webserver bleibt aktiv)
-    # Da es sich um einen Bot ohne Nutzerinteraktion handelt, ist der Startvorgang minimal.
-    application.run_polling() # 'run_polling' hält das Skript am Laufen und die Jobs aktiv.
+    # 4. Den Bot starten
+    application.run_polling() 
 
 
 if __name__ == '__main__':

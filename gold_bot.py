@@ -1,4 +1,5 @@
 import requests
+import imghdr
 from telegram import Bot
 import time
 import feedparser
